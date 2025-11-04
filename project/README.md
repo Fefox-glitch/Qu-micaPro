@@ -1,5 +1,8 @@
 # QuímicaPro - Aplicación Educativa de Química
 
+![Python CI](https://github.com/Fefox-glitch/Qu-micaPro/actions/workflows/python-ci.yml/badge.svg)
+![Integration](https://github.com/Fefox-glitch/Qu-micaPro/actions/workflows/integration.yml/badge.svg)
+
 Una aplicación de escritorio educativa interactiva diseñada para estudiantes de enseñanza media (13-18 años) que enseña química desde conceptos básicos hasta temas avanzados.
 
 ## 🧪 Características

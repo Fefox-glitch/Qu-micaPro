@@ -1,0 +1,52 @@
+name: Integration
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  integration:
+    name: Integration checks (Supabase/DB)
+    # Ejecuta solo si existen los secretos requeridos
+    if: ${{ secrets.SUPABASE_URL != '' && secrets.SUPABASE_KEY != '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r project/requirements.txt || true
+
+      - name: Create project/.env from secrets
+        run: |
+          echo "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" >> project/.env
+          echo "SUPABASE_KEY=${{ secrets.SUPABASE_KEY }}" >> project/.env
+          if [ -n "${{ secrets.DATABASE_URL }}" ]; then
+            echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> project/.env
+          fi
+
+      - name: Optional DB connection test
+        if: ${{ secrets.DATABASE_URL != '' }}
+        run: |
+          python project/scripts/test_db_connection.py || true
+
+      - name: Supabase client sanity check
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+        run: |
+          python - << 'PY'
+          import os
+          from project.src.database import Database
+          db = Database(os.getenv('SUPABASE_URL'), os.getenv('SUPABASE_KEY'))
+          print("Supabase client initialized:", bool(db.client))
+          PY

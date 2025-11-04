@@ -1,6 +1,7 @@
 # QuímicaPro
 
 ![Python CI](https://github.com/Fefox-glitch/Qu-micaPro/actions/workflows/python-ci.yml/badge.svg)
+![Integration](https://github.com/Fefox-glitch/Qu-micaPro/actions/workflows/integration.yml/badge.svg)
 
 Aplicación de escritorio educativa de química para estudiantes de secundaria y bachillerato. Incluye módulos de aprendizaje, lecciones, cuestionarios, progreso y logros, con persistencia en Supabase.
 
@@ -85,8 +86,10 @@ Pruebas incluidas:
 - `test_theme.py`: funciones puras de tema (`lighten_color`, `set_mode`).
 
 ## CI/CD (GitHub Actions)
-- Workflow: `/.github/workflows/python-ci.yml`.
-- Instala dependencias y ejecuta pruebas en cada `push`/`PR` contra `main`.
+- Workflows:
+  - `/.github/workflows/python-ci.yml` (unit tests con Pytest/Unittest)
+  - `/.github/workflows/integration.yml` (integración con Supabase y DB, requiere secretos)
+- Se ejecutan en cada `push`/`PR` contra `main`.
 
 ## Migraciones de Supabase
 - Ubicación principal: `project/supabase/migrations/`.
