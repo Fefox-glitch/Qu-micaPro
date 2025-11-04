@@ -1,0 +1,5 @@
+PyQt5==5.15.10
+supabase==2.23.2
+websockets==13.1
+python-dotenv==1.0.0
+psycopg2-binary==2.9.9
