@@ -1,0 +1,37 @@
+name: Release Build
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    name: Build Windows .exe and upload artifact
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r project/requirements.txt
+          pip install pyinstaller
+
+      - name: Build executable (PyInstaller onefile)
+        run: |
+          python project/scripts/build_exe.py --mode onefile --name QuimicaPro --windowed
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: QuimicaPro-${{ github.ref_name }}-windows
+          path: dist/QuimicaPro.exe
+          if-no-files-found: error

@@ -106,6 +106,11 @@ Pruebas incluidas:
 - Icono (opcional): coloca `project/assets/icons/app.ico` para que se incluya automáticamente.
 - Variables de entorno: pon `project/.env` junto al `.exe` o configura variables del sistema.
 
+### Release Build (tags)
+- Al crear un tag `v*` y hacer push, el workflow `/.github/workflows/release-build.yml` construye el `.exe` y sube un artefacto.
+- También puedes ejecutarlo manualmente desde `Actions → Release Build → Run workflow`.
+- Artefacto esperado: `QuimicaPro-<tag>-windows` con `dist/QuimicaPro.exe`.
+
 ## Migraciones de Supabase
 - Ubicación principal: `project/supabase/migrations/`.
 - Aplicar una migración:
