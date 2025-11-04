@@ -6,6 +6,7 @@
 ## CI y ejecución manual
 - Unit tests: `/.github/workflows/python-ci.yml` se ejecuta en `push/PR`.
 - Integración: `/.github/workflows/integration.yml` requiere secretos (`SUPABASE_URL`, `SUPABASE_KEY`, opcional `DATABASE_URL`).
+ - Integración: `/.github/workflows/integration.yml` requiere secretos y se ejecuta automáticamente solo cuando cambian migraciones en `project/supabase/migrations/` o `supabase/migrations/`.
 - Disparo manual: en GitHub → Actions → Integration → Run workflow (elige rama, p.ej. `main`).
 
 Una aplicación de escritorio educativa interactiva diseñada para estudiantes de enseñanza media (13-18 años) que enseña química desde conceptos básicos hasta temas avanzados.
