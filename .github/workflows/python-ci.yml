@@ -25,3 +25,41 @@ jobs:
       - name: Run unittest discovery (fallback)
         run: |
           python -m unittest discover -s project/tests -p "test_*.py" -v
+
+  integration:
+    # Solo ejecuta si hay secretos configurados en el repositorio
+    if: ${{ secrets.SUPABASE_URL != '' && secrets.SUPABASE_KEY != '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r project/requirements.txt
+      - name: Create .env from repository secrets
+        run: |
+          echo "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" >> project/.env
+          echo "SUPABASE_KEY=${{ secrets.SUPABASE_KEY }}" >> project/.env
+          if [ -n "${{ secrets.DATABASE_URL }}" ]; then
+            echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> project/.env
+          fi
+      - name: Test database connection (optional)
+        if: ${{ secrets.DATABASE_URL != '' }}
+        run: |
+          python project/scripts/test_db_connection.py
+      - name: Import Database client (sanity check)
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+        run: |
+          python - <<'PY'
+          import sys
+          sys.path.insert(0, 'project')
+          from src.database import Database
+          db = Database()
+          print('Supabase client initialized OK')
+          PY

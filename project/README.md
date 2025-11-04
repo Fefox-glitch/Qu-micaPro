@@ -21,10 +21,11 @@ Una aplicación de escritorio educativa interactiva diseñada para estudiantes d
 
 ## 🛠️ Tecnologías
 
-- **Lenguaje:** Python 3.7+
+- **Lenguaje:** Python 3.11 recomendado (3.7+ compatible)
 - **Framework GUI:** PyQt5
 - **Base de Datos:** Supabase (PostgreSQL)
 - **Gestión de configuración:** python-dotenv
+- **Pruebas y CI:** Pytest + GitHub Actions
 
 ## 📋 Requisitos Previos
 
@@ -55,7 +56,7 @@ source venv/bin/activate
 ### 3. Instalar dependencias
 
 ```bash
-pip install -r requirements.txt
+python -m pip install -r project/requirements.txt
 ```
 
 ### 4. Configurar Supabase
@@ -71,12 +72,15 @@ pip install -r requirements.txt
 3. Copia tu **anon/public key**
 
 #### 4.3 Configurar archivo .env
-1. Crea un archivo `.env` en la raíz del proyecto (o copia `.env.example`)
+1. Crea un archivo `.env` en la carpeta `project/` (o copia `.env.example`)
 2. Agrega tus credenciales:
 
 ```env
-SUPABASE_URL=tu_url_de_supabase
-SUPABASE_KEY=tu_clave_anon_de_supabase
+SUPABASE_URL=https://YOUR_REF.supabase.co
+SUPABASE_KEY=YOUR_ANON_KEY
+
+# (Opcional) Conexión directa a PostgreSQL para scripts
+# DATABASE_URL=postgresql://postgres:YOUR_PASSWORD@db.YOUR_REF.supabase.co:5432/postgres?sslmode=require
 ```
 
 #### 4.4 La base de datos ya está configurada
@@ -87,7 +91,7 @@ Las tablas y el contenido inicial ya fueron creados automáticamente mediante mi
 ### Ejecutar la aplicación
 
 ```bash
-python main.py
+python project/main.py
 ```
 
 ### Primera vez
@@ -166,29 +170,27 @@ python main.py
 ## 🔧 Estructura del Proyecto
 
 ```
-quimica-pro/
+QuímicaPro/
 │
-├── main.py                      # Punto de entrada de la aplicación
-├── requirements.txt             # Dependencias del proyecto
-├── .env                        # Configuración de Supabase (no incluir en git)
-├── .env.example                # Ejemplo de configuración
-├── README.md                   # Este archivo
+├── .github/workflows/python-ci.yml    # CI con Pytest
+├── pytest.ini                         # Configuración de Pytest
+├── project/
+│   ├── main.py                        # Punto de entrada de la aplicación
+│   ├── requirements.txt               # Dependencias del proyecto
+│   ├── .env                           # Configuración (no subir a git)
+│   ├── .env.example                   # Plantilla de configuración
+│   ├── scripts/                       # Utilidades (DB y migraciones)
+│   │   ├── apply_migration.py
+│   │   └── test_db_connection.py
+│   ├── src/
+│   │   ├── database.py                # Gestión de base de datos
+│   │   ├── auth.py                    # Sistema de autenticación
+│   │   └── ui/                        # Vistas y componentes
+│   └── tests/
+│       ├── test_auth.py
+│       └── test_theme.py
 │
-└── src/
-    ├── __init__.py
-    ├── database.py             # Gestión de base de datos
-    ├── auth.py                 # Sistema de autenticación
-    │
-    └── ui/
-        ├── __init__.py
-        ├── login_window.py     # Ventana de inicio de sesión
-        ├── main_window.py      # Ventana principal
-        ├── home_view.py        # Vista de inicio
-        ├── modules_view.py     # Vista de módulos
-        ├── lesson_view.py      # Vista de lección
-        ├── quiz_view.py        # Vista de cuestionario
-        ├── progress_view.py    # Vista de progreso
-        └── achievements_view.py # Vista de logros
+└── supabase/migrations/               # Migraciones SQL adicionales
 ```
 
 ## 🎨 Personalización
@@ -253,3 +255,47 @@ Si encuentras algún problema o tienes sugerencias, por favor crea un issue en e
 ---
 
 **¡Disfruta aprendiendo química! 🧪**
+## 🧪 Pruebas
+
+- Ejecutar prueba con Pytest:
+  ```bash
+  python -m pytest -q
+  ```
+- Descubrimiento con unittest (respaldo):
+  ```bash
+  python -m unittest discover -s project/tests -p "test_*.py" -v
+  ```
+
+Incluye:
+- `test_auth.py`: login con base de datos simulada
+- `test_theme.py`: funciones de tema (`lighten_color`, `set_mode`)
+
+## 🔄 CI y Job de Integración (GitHub Actions)
+
+- Workflow: `/.github/workflows/python-ci.yml`
+- Jobs:
+  - `tests`: instala dependencias y ejecuta Pytest + unittest
+  - `integration`: se ejecuta solo si hay secretos configurados
+
+### Secretos Requeridos
+Configura en GitHub → Repo → Settings → Secrets and variables → Actions:
+- `SUPABASE_URL`
+- `SUPABASE_KEY`
+- `DATABASE_URL` (opcional, para test de conexión PostgreSQL)
+
+### Qué hace el job de integración
+- Crea `project/.env` a partir de secretos
+- Prueba conexión a PostgreSQL si hay `DATABASE_URL`
+- Inicializa el cliente de Supabase como verificación
+
+## 🧰 Migraciones
+
+Aplicar una migración:
+```bash
+python project/scripts/apply_migration.py project/supabase/migrations/ARCHIVO.sql
+```
+
+Probar conexión a DB:
+```bash
+python project/scripts/test_db_connection.py
+```
