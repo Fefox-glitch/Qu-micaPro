@@ -90,6 +90,8 @@ Pruebas incluidas:
   - `/.github/workflows/python-ci.yml` (unit tests con Pytest/Unittest)
   - `/.github/workflows/integration.yml` (integración con Supabase y DB, requiere secretos)
 - Se ejecutan en cada `push`/`PR` contra `main`.
+ - Disparo manual: GitHub → Actions → Integration → Run workflow → selecciona rama (p.ej. `main`).
+   - Requiere tener configurados `SUPABASE_URL`, `SUPABASE_KEY` y opcional `DATABASE_URL` en `Settings → Secrets and variables → Actions`.
 
 ## Migraciones de Supabase
 - Ubicación principal: `project/supabase/migrations/`.

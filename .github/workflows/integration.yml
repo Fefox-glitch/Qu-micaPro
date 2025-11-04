@@ -5,6 +5,12 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: "Motivo del disparo manual (opcional)"
+        required: false
+        type: string
 
 jobs:
   integration:
