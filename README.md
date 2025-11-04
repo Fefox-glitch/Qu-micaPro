@@ -93,6 +93,19 @@ Pruebas incluidas:
  - Disparo manual: GitHub → Actions → Integration → Run workflow → selecciona rama (p.ej. `main`).
    - Requiere tener configurados `SUPABASE_URL`, `SUPABASE_KEY` y opcional `DATABASE_URL` en `Settings → Secrets and variables → Actions`.
 
+## Empaquetado (.exe)
+- Instala PyInstaller:
+  ```bash
+  python -m pip install pyinstaller
+  ```
+- Genera ejecutable (modo `onefile`):
+  ```bash
+  python project/scripts/build_exe.py --mode onefile
+  ```
+- Resultado: `dist/QuimicaPro.exe` (o carpeta `dist/QuimicaPro/` si usas `--mode onedir`).
+- Icono (opcional): coloca `project/assets/icons/app.ico` para que se incluya automáticamente.
+- Variables de entorno: pon `project/.env` junto al `.exe` o configura variables del sistema.
+
 ## Migraciones de Supabase
 - Ubicación principal: `project/supabase/migrations/`.
 - Aplicar una migración:
