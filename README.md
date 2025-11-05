@@ -114,6 +114,13 @@ Pruebas incluidas:
  - El ejecutable se nombra con la versión: `dist/QuimicaPro-<tag>.exe` (p.ej. `QuimicaPro-v1.0.0.exe`).
   - Si el tag es de pre-release (p.ej. `v1.0.0-rc1`, `v1.0.0-beta`), la Release se marca automáticamente como **Pre-release**.
  - Además, cuando se ejecuta por `push` de tag, se publica una **GitHub Release** y se adjunta el `.exe` automáticamente.
+ - Descargar artefacto desde Actions (UI):
+   - Ve a `GitHub → Actions → Release Build` y abre la ejecución.
+   - En "Artifacts", descarga `QuimicaPro-<tag>-windows`.
+   - Dentro encontrarás `QuimicaPro-<tag>.exe`.
+ - Opcional (CLI `gh`):
+   - `gh run list -w "Release Build" -b main --limit 5`
+   - `gh run download <run-id> -n QuimicaPro-<tag>-windows -D ./downloads`
 
 ## Migraciones de Supabase
 - Ubicación principal: `project/supabase/migrations/`.
