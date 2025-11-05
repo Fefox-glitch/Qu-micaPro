@@ -110,6 +110,7 @@ Pruebas incluidas:
 - Al crear un tag `v*` y hacer push, el workflow `/.github/workflows/release-build.yml` construye el `.exe` y sube un artefacto.
 - También puedes ejecutarlo manualmente desde `Actions → Release Build → Run workflow`.
 - Artefacto esperado: `QuimicaPro-<tag>-windows` con `dist/QuimicaPro.exe`.
+ - Además, cuando se ejecuta por `push` de tag, se publica una **GitHub Release** y se adjunta el `.exe` automáticamente.
 
 ## Migraciones de Supabase
 - Ubicación principal: `project/supabase/migrations/`.

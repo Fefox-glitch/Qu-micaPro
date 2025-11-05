@@ -9,6 +9,8 @@ on:
 jobs:
   build-windows:
     name: Build Windows .exe and upload artifact
+    permissions:
+      contents: write
     runs-on: windows-latest
     steps:
       - name: Checkout repository
@@ -35,3 +37,14 @@ jobs:
           name: QuimicaPro-${{ github.ref_name }}-windows
           path: dist/QuimicaPro.exe
           if-no-files-found: error
+
+      - name: Publish GitHub Release with .exe asset
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: QuimicaPro ${{ github.ref_name }}
+          files: |
+            dist/QuimicaPro.exe
