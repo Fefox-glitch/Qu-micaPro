@@ -5,7 +5,7 @@
 
 Aplicación de escritorio educativa de química para estudiantes de secundaria y bachillerato. Incluye módulos de aprendizaje, lecciones, cuestionarios, progreso y logros, con persistencia en Supabase.
 
-Desarrollado por Fernando Troncoso Ortiz (Fefox-Glitch), 2025.
+Desarrollado por Fernando Troncoso Ortiz · Fefox-Glitch · 2025.
 
 ## Características
 - Módulos y lecciones con contenido estructurado.
