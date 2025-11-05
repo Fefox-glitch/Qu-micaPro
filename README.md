@@ -109,6 +109,7 @@ Pruebas incluidas:
 ### Release Build (tags)
 - Al crear un tag `v*` y hacer push, el workflow `/.github/workflows/release-build.yml` construye el `.exe` y sube un artefacto.
 - También puedes ejecutarlo manualmente desde `Actions → Release Build → Run workflow`.
+ - En ejecuciones manuales (`workflow_dispatch`), no se crea Release; solo se sube el artefacto en Actions.
  - Artefacto esperado: `QuimicaPro-<tag>-windows` con `dist/QuimicaPro.exe`.
  - El ejecutable se nombra con la versión: `dist/QuimicaPro-<tag>.exe` (p.ej. `QuimicaPro-v1.0.0.exe`).
   - Si el tag es de pre-release (p.ej. `v1.0.0-rc1`, `v1.0.0-beta`), la Release se marca automáticamente como **Pre-release**.
