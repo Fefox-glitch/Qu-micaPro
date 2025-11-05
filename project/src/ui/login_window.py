@@ -83,6 +83,13 @@ class LoginWindow(QWidget):
         main_layout.addSpacing(30)
         main_layout.addWidget(self.stacked_widget)
 
+        footer_label = QLabel("Desarrollado por Fernando Troncoso Ortiz · Fefox-Glitch · 2025")
+        footer_label.setFont(QFont("Arial", 10))
+        footer_label.setAlignment(Qt.AlignCenter)
+        footer_label.setStyleSheet("color: white;")
+        main_layout.addSpacing(10)
+        main_layout.addWidget(footer_label)
+
         self.setLayout(main_layout)
         self.loading_overlay = LoadingOverlay(self, text="Procesando…")
 

@@ -93,6 +93,13 @@ class MainWindow(QMainWindow):
 
         content_layout.addWidget(self.loading_bar)
         content_layout.addWidget(self.content_stack, 1)
+
+        footer_label = QLabel("Desarrollado por Fernando Troncoso Ortiz · Fefox-Glitch · 2025")
+        footer_font = QFont("Arial", 10)
+        footer_label.setFont(footer_font)
+        footer_label.setAlignment(Qt.AlignCenter)
+        footer_label.setStyleSheet(f"color: {Theme.TEXT_SECONDARY}; padding: 8px;")
+        content_layout.addWidget(footer_label)
         content_container.setLayout(content_layout)
 
         self.loading_overlay = LoadingOverlay(content_container, text="Cargando…")
