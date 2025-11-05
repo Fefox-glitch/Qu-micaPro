@@ -9,6 +9,7 @@ from src.ui.modules_view import ModulesView
 from src.ui.progress_view import ProgressView
 from src.ui.achievements_view import AchievementsView
 from src.ui.widgets.loading_overlay import LoadingOverlay
+from src.ui.widgets.about_dialog import AboutDialog
 from src.ui.theme import Theme, lighten_color, set_mode
 
 class MainWindow(QMainWindow):
@@ -204,6 +205,12 @@ class MainWindow(QMainWindow):
 
         layout.addStretch()
 
+        about_btn = QPushButton("Acerca de QuímicaPro")
+        about_btn.setObjectName("navBtn")
+        about_btn.setCursor(Qt.PointingHandCursor)
+        about_btn.clicked.connect(self.show_about_dialog)
+        layout.addWidget(about_btn)
+
         logout_btn = QPushButton("Cerrar Sesión")
         logout_btn.setObjectName("logoutBtn")
         logout_btn.setCursor(Qt.PointingHandCursor)
@@ -214,6 +221,13 @@ class MainWindow(QMainWindow):
         sidebar.setLayout(layout)
         self.sidebar = sidebar
         return sidebar
+
+    def show_about_dialog(self):
+        try:
+            dlg = AboutDialog(self)
+            dlg.exec_()
+        except Exception:
+            pass
 
     def on_theme_toggle(self, checked: bool):
         mode = "dark" if checked else "light"
