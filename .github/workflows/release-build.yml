@@ -29,13 +29,13 @@ jobs:
 
       - name: Build executable (PyInstaller onefile)
         run: |
-          python project/scripts/build_exe.py --mode onefile --name QuimicaPro --windowed
+          python project/scripts/build_exe.py --mode onefile --name QuimicaPro-${{ github.ref_name }} --windowed
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: QuimicaPro-${{ github.ref_name }}-windows
-          path: dist/QuimicaPro.exe
+          path: dist/QuimicaPro-${{ github.ref_name }}.exe
           if-no-files-found: error
 
       - name: Publish GitHub Release with .exe asset
@@ -47,4 +47,4 @@ jobs:
           tag_name: ${{ github.ref_name }}
           name: QuimicaPro ${{ github.ref_name }}
           files: |
-            dist/QuimicaPro.exe
+            dist/QuimicaPro-${{ github.ref_name }}.exe
