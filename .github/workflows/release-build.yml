@@ -46,5 +46,6 @@ jobs:
         with:
           tag_name: ${{ github.ref_name }}
           name: QuimicaPro ${{ github.ref_name }}
+          prerelease: ${{ contains(github.ref_name, '-') }}
           files: |
             dist/QuimicaPro-${{ github.ref_name }}.exe
