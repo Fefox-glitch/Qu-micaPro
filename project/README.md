@@ -118,6 +118,70 @@ python project/main.py
 
 ### Primera vez
 1. La aplicación mostrará la pantalla de inicio de sesión
+
+## 🔬 Visor 3D de moléculas
+
+El proyecto incluye un visor 3D educativo para moléculas simples.
+
+### Comportamiento actualizado
+- Enlaces siempre se renderizan como `cilindros` (se eliminó el selector de modo).
+- Soporte de `dobles` y `triples` enlaces mediante cilindros paralelos.
+- `Auto‑zoom` al recentrar según tamaño de la molécula.
+- Fondo del visor en `verde suave` (`#BFD8B8`) para mejorar contraste.
+- Colores y radios aproximados por elemento (H, O, C, N, Na, Cl).
+- Ejes de referencia visibles cuando PyQtGraph está disponible.
+
+### Controles
+- Arrastrar con el mouse: rota la cámara.
+- Rueda del mouse: acerca/aleja.
+- Botón `Reset vista`: recarga la molécula y recentra/auto‑ajusta la distancia.
+
+### Dependencias y modo de renderizado
+- Preferido: `PyQtGraph` (`pyqtgraph.opengl`) para esferas y cilindros.
+- Fallback: `PyOpenGL` + `GLU` (cylinders/esferas) si PyQtGraph no está disponible.
+- Todo está gestionado automáticamente; no requiere configuración manual.
+
+### Cargar moléculas desde JSON
+Usa el botón `Cargar JSON…` en la barra superior. Formato esperado:
+
+```json
+{
+  "atoms": [
+    { "element": "O", "x": 0.0, "y": 0.0, "z": 0.0 },
+    { "element": "H", "x": 1.5, "y": 1.0, "z": 0.0 },
+    { "element": "H", "x": -1.5, "y": 1.0, "z": 0.0 }
+  ],
+  "bonds": [
+    [0, 1],                // enlace simple O–H
+    [0, 2]                 // enlace simple O–H
+  ]
+}
+```
+
+Para representar dobles/triples enlaces, agrega el `orden` como tercer valor:
+
+```json
+{
+  "atoms": [
+    { "element": "O", "x": -1.2, "y": 0.0, "z": 0.0 },
+    { "element": "O", "x":  1.2, "y": 0.0, "z": 0.0 }
+  ],
+  "bonds": [
+    [0, 1, 2]              // O2 con doble enlace
+  ]
+}
+```
+
+Notas:
+- Los índices de `bonds` refieren a la posición del átomo en el arreglo `atoms` (base 0).
+- El `orden` soporta valores `1`, `2` y `3`.
+- Si el JSON incluye orden, el visor utiliza cilindros paralelos para representarlo.
+
+### Limitaciones conocidas
+- Geometrías y distancias son educativas/visualización (no exactitud química).
+- El tamaño de los átomos y el grosor de los cilindros son aproximados.
+- El fallback OpenGL puede verse ligeramente distinto en iluminación/sombreado.
+
 2. Haz clic en "¿No tienes cuenta? Regístrate"
 3. Ingresa un nombre de usuario y nombre para mostrar
 4. ¡Comienza a aprender química!

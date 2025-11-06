@@ -540,7 +540,11 @@ class Atom3DView(QWidget):
             pos = [float(a.get('x', 0.0)), float(a.get('y', 0.0)), float(a.get('z', 0.0))]
             atoms.append((el, pos))
         for b in (data.get('bonds') or []):
-            if isinstance(b, (list, tuple)) and len(b) == 2:
+            if not isinstance(b, (list, tuple)):
+                continue
+            if len(b) >= 3:
+                bonds.append((int(b[0]), int(b[1]), int(b[2])))
+            elif len(b) == 2:
                 bonds.append((int(b[0]), int(b[1])))
 
         if USE_PYQTGRAPH:
